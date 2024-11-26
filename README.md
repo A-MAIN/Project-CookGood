@@ -1,2 +1,8 @@
 # Project-CookGood
-this is part of the HUA UNI series of repos. a simple java program inspired by Cooking Guide
+
+Documentation is stil WIP.
+
+## Credits
+Alexis L (it2023092): lead developer, Repo host, Documentation
+Ioanis K (it2023091): lead co-developer, ...
+Mixail X (it2023106): lead co-developer, Documentation ...
