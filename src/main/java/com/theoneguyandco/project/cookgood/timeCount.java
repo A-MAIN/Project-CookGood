@@ -1,7 +1,6 @@
 package com.theoneguyandco.project.cookgood;
 
 public class timeCount {
-
     public static int convertToMinutes(int time, String unit) {
         return switch (unit.toLowerCase()) {
             case "minutes" ->
@@ -10,6 +9,6 @@ public class timeCount {
                 time * 60;
             default ->
                 0;
-        }; // Unsupported or unknown units
+        };
     }
 }
