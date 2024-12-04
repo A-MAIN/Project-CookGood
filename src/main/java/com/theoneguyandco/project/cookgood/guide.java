@@ -21,8 +21,6 @@ public class guide {
         Map<String, String> finalList = shopingList.generateShoppingList(filePaths);
         shopingList.printShoppingList(finalList);
 
-        
-
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 
             List<String> ingredients = ingridientDetect.parseIngredients(new BufferedReader(new FileReader(filePath)));
@@ -58,7 +56,6 @@ public class guide {
             System.err.println("Error reading the file: " + e.getMessage());
         }
     }
-
 
     /**
      * Parses steps and calculates the total preparation time.
