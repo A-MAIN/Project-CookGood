@@ -53,7 +53,7 @@ public class shopingList extends ingridientDetect {
         }
 
         // If both have details, concatenate them
-        return oldDetails + " + " + newDetails;
+        return newDetails;
     }
 
     /**
