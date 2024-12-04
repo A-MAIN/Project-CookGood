@@ -1,7 +1,8 @@
 # Project-CookGood
 
 Documentation is stil WIP.
-most of the required java files are missing.
+
+Most of the required java files are missing.
 
 ## Credits
 
