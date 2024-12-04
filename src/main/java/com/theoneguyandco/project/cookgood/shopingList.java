@@ -1,13 +1,8 @@
 package com.theoneguyandco.project.cookgood;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*; //uses buffer and file read and IO exception
+import java.util.*; //uses list, map and hashmap
+import java.util.regex.*; //uses matcher and pattern
 
 public class shopingList extends ingridientDetect {
 
