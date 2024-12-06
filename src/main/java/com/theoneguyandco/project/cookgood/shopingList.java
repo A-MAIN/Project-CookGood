@@ -4,11 +4,12 @@ import java.io.*; //uses buffer and file read and IO exception
 import java.util.*; //uses list, map and hashmap
 import java.util.regex.*; //uses matcher and pattern
 
-public class shopingList extends ingridientDetect {
+public class shopingList {
 
     public static Map<String, String> generateShoppingList(List<String> filePaths) {
-        Map<String, String> shoppingList = new HashMap<>();
-        Pattern detailPattern = Pattern.compile("\\{(.+?)\\}");
+        Map<String, Map<String, Double>> shoppingList = new HashMap<>(); // Ingredient -> Unit -> Amount
+
+        Pattern detailPattern = Pattern.compile("\\{(\\d+(\\.\\d+)?)%(.+?)\\}"); // Matches {amount%unit}
 
         for (String filePath : filePaths) {
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -17,47 +18,55 @@ public class shopingList extends ingridientDetect {
                 while ((line = reader.readLine()) != null) {
                     line = line.trim();
 
-                    // Process lines that start with '@' (ingredients)
+                    // Process lines that start with '@'
                     if (line.startsWith("@")) {
                         String ingredient = line.substring(1);
                         Matcher matcher = detailPattern.matcher(ingredient);
-                        String details = "";
+                        double quantity = 0;
+                        String unit = "";
 
                         if (matcher.find()) {
-                            details = matcher.group(1); // Extract quantity/amount
+
+                            quantity = Double.parseDouble(matcher.group(1));
+                            unit = matcher.group(3).trim();
                             ingredient = ingredient.substring(0, matcher.start()).trim();
                         }
 
-                        // Combine quantities for the same ingredient
-                        shoppingList.merge(ingredient, details, (oldDetails, newDetails) -> combineQuantities(oldDetails, newDetails));
+                        shoppingList.putIfAbsent(ingredient, new HashMap<>());
+                        shoppingList.get(ingredient).merge(unit, quantity, Double::sum);
                     }
                 }
             } catch (IOException e) {
                 System.err.println("Error reading file " + filePath + ": " + e.getMessage());
             }
         }
+        // Convert shopping list to a printable format
+        return formatShoppingList(shoppingList);
+    }
 
-        return shoppingList;
+    private static Map<String, String> formatShoppingList(Map<String, Map<String, Double>> shoppingList) {
+        Map<String, String> formattedList = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Map<String, Double>> entry : shoppingList.entrySet()) {
+            String ingredient = entry.getKey();
+            Map<String, Double> quantities = entry.getValue();
+
+            StringBuilder quantityString = new StringBuilder();
+            for (Map.Entry<String, Double> quantityEntry : quantities.entrySet()) {
+                String unit = quantityEntry.getKey();
+                double amount = quantityEntry.getValue();
+                if (quantityString.length() > 0) {
+                    quantityString.append(", "); // SHOULD BE EXTENDED TO UNIT CONVERSIONS LATER
+                }
+                quantityString.append(amount).append(" ").append(unit);
+            }
+            formattedList.put(ingredient, quantityString.toString());
+        }
+        return formattedList;
     }
 
     /**
-     * Combines two quantity descriptions for the same ingredient.
-     */
-    private static String combineQuantities(String oldDetails, String newDetails) {
-        // If both details are empty, return empty
-        if (oldDetails.isEmpty()) {
-            return newDetails;
-        }
-        if (newDetails.isEmpty()) {
-            return oldDetails;
-        }
-
-        // If both have details, concatenate them
-        return newDetails;
-    }
-
-    /**
-     * Prints the shopping list.
+     * Print the shopping list.
      */
     public static void printShoppingList(Map<String, String> shoppingList) {
         System.out.println("Shopping List:");
