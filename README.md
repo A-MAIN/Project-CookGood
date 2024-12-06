@@ -4,6 +4,8 @@ Documentation is stil WIP.
 
 Most of the required java files are missing.
 
+## Usage
+
 ## Credits
 
 Alexis L (it2023092): lead developer, Repo host, Documentation
