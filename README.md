@@ -4,7 +4,7 @@ Documentation is stil WIP.
 
 Most of the required java files are missing.
 
-##Usage
+## Usage
 
 ## Credits
 
