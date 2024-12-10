@@ -8,8 +8,8 @@ Most of the required java files are missing.
 
 ## Credits
 
-Alexis L (it2023092): lead developer, Repo host, Documentation
+Alexis L (it2023092): lead co-developer, Repo host, Documentation
 
-Ioanis K (it2023091): lead co-developer, beta tester ...
+Ioanis K (it2023091): lead developer, beta tester ...
 
 Mixail X (it2023106): Documentation, beta tester ...
