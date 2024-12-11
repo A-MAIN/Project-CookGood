@@ -10,10 +10,9 @@
         <maven.compiler.release>23</maven.compiler.release>
     </properties>
 	<build>
+        <pluginManagement>
 	<plugins>
 	<plugin>
-	<configuration>
-	<archive>
 	<groupId>org.apache.maven.plugins</groupId>
 <artifactId>maven-jar-plugin</artifactId>
 <version>3.2.0</version>
@@ -28,6 +27,10 @@
 </archive>
 </configuration>
 </plugin>
+</plugins>
+</pluginManagement>
+</build>
+</project>
 </plugins>
 </pluginManagement>
 </build>
