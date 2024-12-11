@@ -68,15 +68,17 @@ public class SouschefPro {
    the escape sequence for double quotes (\") must be used.                
    */
    char startChar = '@';
-    char startChar2 = '#';
-        char endChar = '}';
+   char startChar2 = '#';
+   char endChar = '}';
         int startIndex,startIndex2;
         int endIndex,endIndex2;
         String result, strN, strN2;
       @SuppressWarnings("Convert2Diamond")
-   List<String> words = new ArrayList<String>();
+      List<String> words;
+      words = new ArrayList<String>();
       @SuppressWarnings("Convert2Diamond")
-   List<String> words2 = new ArrayList<String>();
+      List<String> words2;
+      words2 = new ArrayList<String>();
       System.out.print("Reading from file \"" + args[0] + "\":\n");
    //keeps looping if file has more lines..
 
@@ -87,7 +89,7 @@ public class SouschefPro {
      System.out.println("\nIngridients:\n");
       while (readFromFile.hasNextLine()) {
       //get a line of text..
-         line = readFromFile.nextLine();   
+         line = readFromFile.nextLine();  
          startIndex = line.indexOf(startChar);
          startIndex2 = line.indexOf(startChar2);
          endIndex = line.indexOf(endChar, startIndex + 1);
@@ -99,7 +101,7 @@ public class SouschefPro {
             strN2= strN.replace("%", " ");
             // print the result
             words.addAll(Arrays.asList(strN2));
-            //System.out.println(strN2);
+          //System.out.println(strN2);
         }
          else if (startIndex2 != -1 && endIndex2 != -1) {
            result = line.substring(startIndex2 + 1, endIndex2);
@@ -120,9 +122,10 @@ public class SouschefPro {
       line = readFromFile.nextLine().trim();
       if (!line.startsWith("@") && !line.startsWith("#") && !line.isEmpty()) {
       steps.add(line);
+      }
     }
-    }
-    //parsing time needed for the recipe
+          
+    //parsing time needed for the recipe - alex
     int totalTimeMinutes = 0;
     Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");
     Matcher timeMatcher = timePattern.matcher(line);
