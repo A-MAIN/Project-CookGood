@@ -75,10 +75,10 @@ public class SouschefPro {
         String result, strN, strN2;
       @SuppressWarnings("Convert2Diamond")
       List<String> words;
-      words = new ArrayList<String>();
+      words = new ArrayList<>();
       @SuppressWarnings("Convert2Diamond")
       List<String> words2;
-      words2 = new ArrayList<String>();
+      words2 = new ArrayList<>();
       System.out.print("Reading from file \"" + args[0] + "\":\n");
    //keeps looping if file has more lines..
 
