@@ -2,11 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>alexandco</groupId>
-    <artifactId>project-cookgood</artifactId>
+    <artifactId>project-cookgood-rev2</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>20</maven.compiler.release>
+        <maven.compiler.release>23</maven.compiler.release>
     </properties>
+	<build>
+	<plugins>
+	<plugin>
+	<configuration>
+	<archive>
+	<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-jar-plugin</artifactId>
+<version>3.2.0</version>
+<configuration>
+<archive>
+<manifest>
+<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+<addClasspath>true</addClasspath>
+<classpathPrefix>lib/</classpathPrefix>
+<mainClass>alexandco.projectcookgood.SouschefPro</mainClass>
+</manifest>
+</archive>
+</configuration>
+</plugin>
+</plugins>
+</pluginManagement>
+</build>
 </project>
