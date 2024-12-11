@@ -13,7 +13,7 @@ public class shopingList {
     public static Map<String, String> generateShoppingList(List<String> filePaths) {
         Map<String, Map<String, Double>> shoppingList = new HashMap<>(); // Ingredient -> Unit -> Amount
 
-        Pattern detailPattern = Pattern.compile("\\{(\\d+(\\.\\d+)?)%(.+?)\\}"); //regex uses patterns. this one Matches {amount%unit}
+        Pattern detailPattern = Pattern.compile("\\{(\\d+(\\.\\d+)?)%(.+?)\\}"); //regex uses patterns. this one Matches the {amount%unit} container marking.
 
         for (String filePath : filePaths) {
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
