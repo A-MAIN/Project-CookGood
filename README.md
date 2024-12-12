@@ -15,4 +15,5 @@ Ioanis K (it2023091): lead developer, beta tester ...
 Mixail X (it2023106): Documentation, beta tester ...
 
 ## ToDo List
-
+- add the required dependencies for phase two
+- further optimize the parsing logic.
