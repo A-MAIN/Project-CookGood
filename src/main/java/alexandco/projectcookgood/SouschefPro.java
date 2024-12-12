@@ -29,7 +29,7 @@ public class SouschefPro {
          //end the program
          System.exit(1);
       }
-   //connect to a file (does NOT create a new file)
+      //connect to a file (does NOT create a new file) -john
       file = new File(args[0]);
       try {
          //create a Scanner object to read from the file
@@ -47,13 +47,13 @@ public class SouschefPro {
          System.exit(1);
       }
 
-     //parsing the shoping list, my part uses regex formating.
+     //parsing the shoping list, my part uses regex formating. - alex
      boolean isListMode = Arrays.asList(args).contains("-list");
 
     if (isListMode) {
       int listIndex = Arrays.asList(args).indexOf("-list");
       if (args.length <= listIndex + 1) {
-        System.out.println("ERROR: Please specify at least one recipe file for the shopping list.");
+        System.out.println("ERROR: Please enter at least one recipe file for the shopping list!");
         System.exit(1);
     }
     List<String> filePaths = Arrays.asList(Arrays.copyOfRange(args, listIndex + 1, args.length));
@@ -67,6 +67,7 @@ public class SouschefPro {
    In order to print double quotes("),
    the escape sequence for double quotes (\") must be used.                
    */
+   //should clean the output function with regex later, john's error logs are passible. but ill have to fix the output logic.
    char startChar = '@';
    char startChar2 = '#';
    char endChar = '}';
@@ -86,7 +87,6 @@ public class SouschefPro {
         // Condition holds true till
         // there is character in a string
 
-     System.out.println("\nIngridients:\n");
       while (readFromFile.hasNextLine()) {
       //get a line of text..
          line = readFromFile.nextLine();  
@@ -111,38 +111,38 @@ public class SouschefPro {
             //System.out.println(strN2);
          }
          
-      //display a line of text to screen..
-      // words.addAll(Arrays.asList(line.split("\\s+")));
-      //  System.out.println(line);
+   List<String> steps = new ArrayList<>();
 
-      List<String> steps = new ArrayList<>();
-      
-      //cleaning the output for the steps
-      while (readFromFile.hasNextLine()) {
-      line = readFromFile.nextLine().trim();
-      if (!line.startsWith("@") && !line.startsWith("#") && !line.isEmpty()) {
-      steps.add(line);
-      }
-    }
-          
     //parsing time needed for the recipe - alex
     int totalTimeMinutes = 0;
     Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");
-    Matcher timeMatcher = timePattern.matcher(line);
-    if (timeMatcher.find()) {
+
+    
+      //cleaning the output for the steps
+      while (readFromFile.hasNextLine()) {
+      line = readFromFile.nextLine().trim();
+
+      // Check for time markers and extract values
+      Matcher timeMatcher = timePattern.matcher(line);
+      while (timeMatcher.find()) {
         int time = Integer.parseInt(timeMatcher.group(1));
         String unit = timeMatcher.group(2).trim();
         totalTimeMinutes += timeCount.convertToMinutes(time, unit);
         }
+
+      if (!line.startsWith("@") && !line.startsWith("#") && !line.isEmpty() && line.endsWith(".")) {
+      steps.add(line);
+      }
+    }
       
       System.out.println("\nIngridients:\n ");
       for (String allWords: words) {
-     System.out.println(allWords);
+     System.out.println("- " + allWords);
       }
 
-       System.out.println("\nUtensils: \n ");
+       System.out.println("\nUtensils:\n ");
        for (String allWords2: words2) {
-      System.out.println(allWords2);
+      System.out.println("- " + allWords2);
        }   
                 
       System.out.println("\nTotal Time: " + totalTimeMinutes + " minutes \n ");
