@@ -1,0 +1,4 @@
+Preheat the oven to 200°C.
+With a #spoon, press down on the center of the @bread{1} to form a pocket. Spread the @butter{0.5%tablespoon} around the edges of the @bread, then crack the @egg{1} into the pocket.
+Sprinkle the @cheese{3%tablespoons} around the @egg, then season with @salt and @pepper to taste.
+Bake the toast for ~{12%minutes}, then serve!
