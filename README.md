@@ -10,7 +10,7 @@ Most of the required java files are missing.
 
 Alexis L (it2023092): lead co-developer, Repo host, Documentation
 
-Ioanis K (it2023091): lead developer, beta tester, 
+Ioanis K (it2023091): lead developer, beta tester
 
 ## ToDo List
 - add the required dependencies for phase two
