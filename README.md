@@ -16,4 +16,4 @@ Ioanis K (it2023091): lead developer, beta tester
 - add the required dependencies for phase two
 - further optimize the parsing logic
 - unit conversions to gr and ml
-- make it only exclusively-compatible with .reci and .cook
+- make it only exclusively-compatible with `.reci` and `.cook` files
