@@ -42,8 +42,8 @@ public class SouschefPro {
    Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any
 
    //parsing time needed for the recipe - alex
-    int totalTimeMinutes = 0;
-    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");      
+    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");
+    int totalTimeMinutes = 0;      
     
    //if made connection to file, read from file
    /*
@@ -86,16 +86,30 @@ public class SouschefPro {
          words2.addAll(Arrays.asList(line.substring(0)));
         // cleaning the output for the steps
           } else if (!line.isEmpty()) {
-         steps.add(parseDetails(line, toolPattern, false));
-          }
-      // Check for time markers and extract values
-      Matcher timeMatcher = timePattern.matcher(line);
-      while (timeMatcher.find()) {
-        int time = Integer.parseInt(timeMatcher.group(1));
-        String unit = timeMatcher.group(2).trim();
-        totalTimeMinutes += timeCount.convertToMinutes(time, unit);
-        }
+        Matcher timeMatcher = timePattern.matcher(line);
+                    StringBuilder cleanLine = new StringBuilder();
+                    int lastEnd = 0;
+
+                    while (timeMatcher.find()) {
+                        cleanLine.append(line, lastEnd, timeMatcher.start());
+                        int time = Integer.parseInt(timeMatcher.group(1));
+                        String unit = timeMatcher.group(2).trim();
+                        cleanLine.append(time).append(" ").append(unit);
+                        lastEnd = timeMatcher.end();
+                    }
+
+                    cleanLine.append(line.substring(lastEnd));
+                    steps.add(cleanLine.toString());
+                    steps.add(parseDetails(line, toolPattern, false));
+
+                    timeMatcher = timePattern.matcher(line);
+                    while (timeMatcher.find()) {
+                        int time = Integer.parseInt(timeMatcher.group(1));
+                        String unit = timeMatcher.group(2).trim();
+                       totalTimeMinutes += timeCount.convertToMinutes(time, unit);
+        } 
     }
+  }
       //output the stuff out
       System.out.println("\nIngridients:\n ");
       for (String allWords: words) {
@@ -155,12 +169,10 @@ public class SouschefPro {
             return name + " (" + details + ")";
             }
         } else {
-            //this pattern should remove the extra details from the markers - alex
-            String name = text.substring(0, matcher.start()).trim();
-            return name + text.replaceAll("\\{.*?\\}", "").trim();
+            //this should remove the extra details from the markers - alex
+            result.append(text);
         }
         return result.toString();
-    }
-       
+    }    
 }//end of class
 
