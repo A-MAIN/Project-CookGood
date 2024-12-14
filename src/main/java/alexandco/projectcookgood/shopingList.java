@@ -1,8 +1,8 @@
+package alexandco.projectcookgood;
+
 /*
  * @author Alex
  */
-
-package alexandco.projectcookgood;
 
 import java.io.*; //uses buffer and file read and IO exception
 import java.util.*; //uses list, map and hashmap
