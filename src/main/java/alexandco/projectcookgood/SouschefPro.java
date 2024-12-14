@@ -79,11 +79,13 @@ public class SouschefPro {
          if (line.startsWith("@")) {
          // if it starts with an ingredient
          words.add(parseDetails(line.substring(1), toolPattern, true));
+         words.addAll(Arrays.asList(line.substring(0)));
           } else if (line.startsWith("#")) {
          // if it starts with a utensil
          words2.add(parseDetails(line.substring(1), toolPattern, true));
+         words2.addAll(Arrays.asList(line.substring(0)));
         // cleaning the output for the steps
-          } else if (!line.startsWith("@") || !line.startsWith("#") || !line.startsWith("~") || !line.isEmpty()) {
+          } else if (!line.isEmpty()) {
          steps.add(parseDetails(line, toolPattern, false));
           }
       // Check for time markers and extract values
@@ -138,7 +140,7 @@ public class SouschefPro {
   } //end of main() method
 
    //this private method should clean out the marker parts when parsing the list for ingridients and utensils, and later the steps in. - alex
-       private static String parseDetails(String text, Pattern pattern, boolean includeUnits) {
+       public static String parseDetails(String text, Pattern pattern, boolean includeUnits) {
         Matcher matcher = pattern.matcher(text);
         StringBuilder result = new StringBuilder();
         
@@ -153,11 +155,12 @@ public class SouschefPro {
             return name + " (" + details + ")";
             }
         } else {
-            result.append(text);
             //this pattern should remove the extra details from the markers - alex
-            return text.replaceAll("\\{.*?\\}", "").trim();
+            String name = text.substring(0, matcher.start()).trim();
+            return name + text.replaceAll("\\{.*?\\}", "").trim();
         }
         return result.toString();
     }
        
 }//end of class
+
