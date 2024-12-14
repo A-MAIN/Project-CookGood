@@ -6,7 +6,7 @@ package alexandco.projectcookgood;
  */
 
 import java.io.*; //uses scanner and file read and IO exception
-import java.util.*; //uses list, map and hashmap
+import java.util.*; //uses list, map and array
 import java.util.regex.*; //uses matcher and pattern
 
 
