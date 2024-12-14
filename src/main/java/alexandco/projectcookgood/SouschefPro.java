@@ -5,18 +5,22 @@ package alexandco.projectcookgood;
  * @author Alex
  */
 
-import java.io.*; //uses scanner & file read, and IO exception
-import java.util.*; //uses list, map and hashmap
-import java.util.regex.*; //uses matcher and pattern
-
-
 public class SouschefPro {
     public static void main(String[] args) {
-        
-        
+          
       File file;
       Scanner readFromFile = null;
       String line;
+      
+   List<String> words = new ArrayList<>();
+   List<String> words2 = new ArrayList<>();
+   List<String> steps = new ArrayList<>();
+
+   Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any
+
+   //parsing time needed for the recipe - alex
+    int totalTimeMinutes = 0;
+    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}"); 
 
       /*
       Error Checking For Command Line Arguments..
@@ -31,38 +35,10 @@ public class SouschefPro {
       }
       //connect to a file (does NOT create a new file) -john
       file = new File(args[0]);
+
       //create a Scanner object to read from the file
-      try{
-         //create a Scanner object to read from the file
-         readFromFile = new Scanner(file);
-      }
-      catch (FileNotFoundException exception) {
-      /*
-      Print error message.
-      In order to print double quotes("),
-      the escape sequence for double quotes (\") must be used.
-      */
-         System.out.print("ERROR: File not found for \"");
-         System.out.println(args[0]+"\"");
-      //end the program
-         System.exit(1);
-      }
-
-    //parsing the shoping list, my part uses regex formating. - alex
-    boolean isListMode = Arrays.asList(args[1]).contains("-list");
-
-    if (isListMode) {
-      int listIndex = Arrays.asList(args[1]).indexOf("-list");
-      if (args.length <= listIndex + 1) {
-        System.out.println("ERROR: Please enter at least one recipe file for the shopping list!");
-        System.exit(1);
-    }
-    List<String> filePaths = Arrays.asList(Arrays.copyOfRange(args, listIndex + 1, args.length));
-    Map<String, String> finalList = shopingList.generateShoppingList(filePaths);
-    shopingList.printShoppingList(finalList);
-    System.exit(0);
-    }  
-      
+      try { 
+   readFromFile = new Scanner(file);
          
    //if made connection to file, read from file
    /*
@@ -78,24 +54,17 @@ public class SouschefPro {
    // int startIndex,startIndex2;
    // int endIndex,endIndex2;
    // String result, strN, strN2;
+   // @SuppressWarnings("Convert2Diamond")
    // List<String> words;
    // words = new ArrayList<>();
+   // @SuppressWarnings("Convert2Diamond")
    //  List<String> words2;
    //  words2 = new ArrayList<>();
     
    System.out.print("Reading from file \"" + args[0] + "\":\n");
 
-   List<String> words = new ArrayList<>();
-   List<String> words2 = new ArrayList<>();
-   List<String> steps = new ArrayList<>();
-
-   Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any -alex
-
-   //parsing time needed for the recipe - alex
-    int totalTimeMinutes = 0;
-    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}"); //also does it by marker -> digit -> unit - alex
-
    //keeps looping if file has more lines..
+
         // Declaring a string variable
         // Condition holds true till
         // there is character in a string - john
@@ -103,12 +72,12 @@ public class SouschefPro {
       while (readFromFile.hasNextLine()) {
       line = readFromFile.nextLine();
          if (line.startsWith("@")) {
-         // if it starts with an ingredient -alex
+         // if it starts with an ingredient
          words.add(parseDetails(line.substring(1), toolPattern, true));
           } else if (line.startsWith("#")) {
-         // if it starts with a utensil -alex
+         // if it starts with a utensil
          words2.add(parseDetails(line.substring(1), toolPattern, true));
-        // cleaning the output for the steps -alex
+        // cleaning the output for the steps
           } else if (!line.isEmpty()) {
          steps.add(parseDetails(line, toolPattern, false));
           }
@@ -138,18 +107,41 @@ public class SouschefPro {
       for (int i = 0; i < steps.size(); i++) {
                 System.out.println((i + 1) + ". " + steps.get(i));
       }
-   } //end of main() method
+      
+      } catch (FileNotFoundException e) {
+         System.out.print("ERROR: File not found for \"");
+         System.out.println(args[0]+"\"");
+      //end the program
+         System.exit(1);
+      }
+  
+    //parsing the shoping list from the other java class, my part uses regex formating. - alex
+    boolean isListMode = Arrays.asList(args[0]).contains("-list");
 
-  // this function when called should clean out the marker parts when parsing the list for ingridients and utensils, and later the steps in. - alex
+    if (isListMode) {
+      int listIndex = Arrays.asList(args[0]).indexOf("-list");
+      if (args.length <= listIndex + 1) {
+        System.out.println("ERROR: Please enter at least one recipe file for the shopping list!");
+        System.exit(1);
+    }
+    List<String> filePaths = Arrays.asList(Arrays.copyOfRange(args, listIndex + 1, args.length));
+    Map<String, String> finalList = shopingList.generateShoppingList(filePaths);
+    shopingList.printShoppingList(finalList);
+    System.exit(0);
+    }
+  
+  } //end of main() method
+
+   //this private method should clean out the marker parts when parsing the list for ingridients and utensils, and later the steps in. - alex
        private static String parseDetails(String text, Pattern pattern, boolean includeUnits) {
         Matcher matcher = pattern.matcher(text);
         StringBuilder result = new StringBuilder();
 
         if (matcher.find()) {
-            // Add the main part before the details -alex
+            // Add the main part before the details
             result.append(text, 0, matcher.start());
          
-            // Add the content inside {} only if includeUnits is true -alex
+            // Add the content inside {} only if includeUnits is true
             if (includeUnits) {
             String name = text.substring(0, matcher.start()).trim();
             String details = matcher.group(1).trim();
@@ -161,8 +153,4 @@ public class SouschefPro {
         return result.toString();
     }
        
-}//end of class  
-
-        
-        
-      
+}//end of class
