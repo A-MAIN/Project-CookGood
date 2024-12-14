@@ -5,22 +5,14 @@ package alexandco.projectcookgood;
  * @author Alex
  */
 
+
+
 public class SouschefPro {
     public static void main(String[] args) {
           
       File file;
       Scanner readFromFile = null;
       String line;
-      
-   List<String> words = new ArrayList<>();
-   List<String> words2 = new ArrayList<>();
-   List<String> steps = new ArrayList<>();
-
-   Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any
-
-   //parsing time needed for the recipe - alex
-    int totalTimeMinutes = 0;
-    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}"); 
 
       /*
       Error Checking For Command Line Arguments..
@@ -39,7 +31,17 @@ public class SouschefPro {
       //create a Scanner object to read from the file
       try { 
    readFromFile = new Scanner(file);
-         
+   
+   List<String> words = new ArrayList<>();
+   List<String> words2 = new ArrayList<>();
+   List<String> steps = new ArrayList<>();
+
+   Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any
+
+   //parsing time needed for the recipe - alex
+    int totalTimeMinutes = 0;
+    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");      
+    
    //if made connection to file, read from file
    /*
    In order to print double quotes("),
@@ -47,7 +49,7 @@ public class SouschefPro {
    */
    //should clean the output function with regex later, john's error logs are passible. but ill have to fix the output logic.
    
-   //alt. method
+   // alt
    //char startChar = '@';
    //char startChar2 = '#';
    //char endChar = '}';
@@ -78,7 +80,7 @@ public class SouschefPro {
          // if it starts with a utensil
          words2.add(parseDetails(line.substring(1), toolPattern, true));
         // cleaning the output for the steps
-          } else if (!line.isEmpty()) {
+          } else if (!line.startsWith("@") || !line.startsWith("#") || !line.startsWith("~") || !line.isEmpty()) {
          steps.add(parseDetails(line, toolPattern, false));
           }
       // Check for time markers and extract values
@@ -136,11 +138,11 @@ public class SouschefPro {
        private static String parseDetails(String text, Pattern pattern, boolean includeUnits) {
         Matcher matcher = pattern.matcher(text);
         StringBuilder result = new StringBuilder();
-
+        
         if (matcher.find()) {
             // Add the main part before the details
             result.append(text, 0, matcher.start());
-         
+    
             // Add the content inside {} only if includeUnits is true
             if (includeUnits) {
             String name = text.substring(0, matcher.start()).trim();
@@ -149,6 +151,8 @@ public class SouschefPro {
             }
         } else {
             result.append(text);
+            //this pattern should remove the extra details from the markers - alex
+            return text.replaceAll("\\{.*?\\}", "").trim();
         }
         return result.toString();
     }
