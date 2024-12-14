@@ -47,7 +47,7 @@ public class SouschefPro {
    */
    //should clean the output function with regex later, john's error logs are passible. but ill have to fix the output logic.
    
-   // alt
+   //alt. method
    //char startChar = '@';
    //char startChar2 = '#';
    //char endChar = '}';
