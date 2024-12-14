@@ -45,7 +45,7 @@ public class shopingList {
         }
         return formatShoppingList(shoppingList);
     }
-
+   //this part stores every ingridient to a hashmap
     private static Map<String, String> formatShoppingList(Map<String, Map<String, Double>> shoppingList) {
         Map<String, String> formattedList = new LinkedHashMap<>();
 
