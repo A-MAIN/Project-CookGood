@@ -5,9 +5,9 @@ package alexandco.projectcookgood;
  * @author Alex
  */
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.*; //uses scanner & file read, and IO exception
+import java.util.*; //uses list, map and hashmap
+import java.util.regex.*; //uses matcher and pattern
 
 
 public class SouschefPro {
@@ -31,7 +31,8 @@ public class SouschefPro {
       }
       //connect to a file (does NOT create a new file) -john
       file = new File(args[0]);
-      try {
+      //create a Scanner object to read from the file
+      try{
          //create a Scanner object to read from the file
          readFromFile = new Scanner(file);
       }
@@ -47,11 +48,11 @@ public class SouschefPro {
          System.exit(1);
       }
 
-     //parsing the shoping list, my part uses regex formating. - alex
-     boolean isListMode = Arrays.asList(args).contains("-list");
+    //parsing the shoping list, my part uses regex formating. - alex
+    boolean isListMode = Arrays.asList(args[1]).contains("-list");
 
     if (isListMode) {
-      int listIndex = Arrays.asList(args).indexOf("-list");
+      int listIndex = Arrays.asList(args[1]).indexOf("-list");
       if (args.length <= listIndex + 1) {
         System.out.println("ERROR: Please enter at least one recipe file for the shopping list!");
         System.exit(1);
@@ -59,7 +60,8 @@ public class SouschefPro {
     List<String> filePaths = Arrays.asList(Arrays.copyOfRange(args, listIndex + 1, args.length));
     Map<String, String> finalList = shopingList.generateShoppingList(filePaths);
     shopingList.printShoppingList(finalList);
-}  
+    System.exit(0);
+    }  
       
          
    //if made connection to file, read from file
@@ -68,60 +70,48 @@ public class SouschefPro {
    the escape sequence for double quotes (\") must be used.                
    */
    //should clean the output function with regex later, john's error logs are passible. but ill have to fix the output logic.
-   char startChar = '@';
-   char startChar2 = '#';
-   char endChar = '}';
-        int startIndex,startIndex2;
-        int endIndex,endIndex2;
-        String result, strN, strN2;
-      @SuppressWarnings("Convert2Diamond")
-      List<String> words;
-      words = new ArrayList<>();
-      @SuppressWarnings("Convert2Diamond")
-      List<String> words2;
-      words2 = new ArrayList<>();
-      System.out.print("Reading from file \"" + args[0] + "\":\n");
-   //keeps looping if file has more lines..
+   
+   // alt
+   //char startChar = '@';
+   //char startChar2 = '#';
+   //char endChar = '}';
+   // int startIndex,startIndex2;
+   // int endIndex,endIndex2;
+   // String result, strN, strN2;
+   // List<String> words;
+   // words = new ArrayList<>();
+   //  List<String> words2;
+   //  words2 = new ArrayList<>();
+    
+   System.out.print("Reading from file \"" + args[0] + "\":\n");
 
-        // Declaring a string variable
-        // Condition holds true till
-        // there is character in a string
-
-      while (readFromFile.hasNextLine()) {
-      //get a line of text..
-         line = readFromFile.nextLine();  
-         startIndex = line.indexOf(startChar);
-         startIndex2 = line.indexOf(startChar2);
-         endIndex = line.indexOf(endChar, startIndex + 1);
-         endIndex2 = line.indexOf(endChar, startIndex2 + 1);
-         if (startIndex != -1 && endIndex != -1) {
-            // extract the substring between the start and end characters
-            result = line.substring(startIndex + 1, endIndex);
-            strN= result.replace("{", " ");
-            strN2= strN.replace("%", " ");
-            // print the result
-            words.addAll(Arrays.asList(strN2));
-          //System.out.println(strN2);
-        }
-         else if (startIndex2 != -1 && endIndex2 != -1) {
-           result = line.substring(startIndex2 + 1, endIndex2);
-            strN= result.replace("{", " ");
-            // print the result
-            words2.addAll(Arrays.asList(strN));
-            //System.out.println(strN2);
-         }
-         
+   List<String> words = new ArrayList<>();
+   List<String> words2 = new ArrayList<>();
    List<String> steps = new ArrayList<>();
 
-    //parsing time needed for the recipe - alex
+   Pattern toolPattern = Pattern.compile("\\{(.+?)\\}"); //supposed to capture the square brackets after the markers if any -alex
+
+   //parsing time needed for the recipe - alex
     int totalTimeMinutes = 0;
-    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}");
+    Pattern timePattern = Pattern.compile("~\\{(\\d+)%(.+?)\\}"); //also does it by marker -> digit -> unit - alex
 
-    
-      //cleaning the output for the steps
+   //keeps looping if file has more lines..
+        // Declaring a string variable
+        // Condition holds true till
+        // there is character in a string - john
+
       while (readFromFile.hasNextLine()) {
-      line = readFromFile.nextLine().trim();
-
+      line = readFromFile.nextLine();
+         if (line.startsWith("@")) {
+         // if it starts with an ingredient -alex
+         words.add(parseDetails(line.substring(1), toolPattern, true));
+          } else if (line.startsWith("#")) {
+         // if it starts with a utensil -alex
+         words2.add(parseDetails(line.substring(1), toolPattern, true));
+        // cleaning the output for the steps -alex
+          } else if (!line.isEmpty()) {
+         steps.add(parseDetails(line, toolPattern, false));
+          }
       // Check for time markers and extract values
       Matcher timeMatcher = timePattern.matcher(line);
       while (timeMatcher.find()) {
@@ -129,12 +119,8 @@ public class SouschefPro {
         String unit = timeMatcher.group(2).trim();
         totalTimeMinutes += timeCount.convertToMinutes(time, unit);
         }
-
-      if (!line.startsWith("@") && !line.startsWith("#") && !line.isEmpty() && line.endsWith(".")) {
-      steps.add(line);
-      }
     }
-      
+      //output the stuff out
       System.out.println("\nIngridients:\n ");
       for (String allWords: words) {
      System.out.println("- " + allWords);
@@ -152,10 +138,30 @@ public class SouschefPro {
       for (int i = 0; i < steps.size(); i++) {
                 System.out.println((i + 1) + ". " + steps.get(i));
       }
-   }
+   } //end of main() method
 
-}//end of main() method
-}//end of class
+  // this function when called should clean out the marker parts when parsing the list for ingridients and utensils, and later the steps in. - alex
+       private static String parseDetails(String text, Pattern pattern, boolean includeUnits) {
+        Matcher matcher = pattern.matcher(text);
+        StringBuilder result = new StringBuilder();
+
+        if (matcher.find()) {
+            // Add the main part before the details -alex
+            result.append(text, 0, matcher.start());
+         
+            // Add the content inside {} only if includeUnits is true -alex
+            if (includeUnits) {
+            String name = text.substring(0, matcher.start()).trim();
+            String details = matcher.group(1).trim();
+            return name + " (" + details + ")";
+            }
+        } else {
+            result.append(text);
+        }
+        return result.toString();
+    }
+       
+}//end of class  
 
         
         
