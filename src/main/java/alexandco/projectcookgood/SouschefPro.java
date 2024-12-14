@@ -170,9 +170,8 @@ public class SouschefPro {
             }
         } else {
             //this should remove the extra details from the markers - alex
-            result.append(text);
+            result.append(text.substring(0, matcher.start()).trim());
         }
         return result.toString();
     }    
 }//end of class
-
