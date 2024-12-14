@@ -14,7 +14,7 @@ public class SouschefPro {
     public static void main(String[] args) {
           
       File file;
-      Scanner readFromFile = null;
+      Scanner readFromFile;
       String line;
 
       /*
