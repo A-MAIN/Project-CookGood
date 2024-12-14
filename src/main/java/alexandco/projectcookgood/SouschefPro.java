@@ -75,7 +75,7 @@ public class SouschefPro {
         // there is character in a string - john
 
       while (readFromFile.hasNextLine()) {
-      line = readFromFile.nextLine();
+      line = readFromFile.nextLine().trim();
          if (line.startsWith("@")) {
          // if it starts with an ingredient
          words.add(parseDetails(line.substring(1), toolPattern, true));
