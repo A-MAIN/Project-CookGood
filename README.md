@@ -2,7 +2,7 @@
 Project-CookGood is a simple java project that IO's external files into a readable format within it, and later on be inspired by the infamous Nintendo DS Game, "Cooking Guide: Can't Decide What to Eat?".
 
 ## Usage
-included with the project's source code is a pre-made .jar executable and sample recipe files, for now you can open a command line on the folder you installed it and use the following command to open a file:
+included with every release is a pre-made .jar executable and sample recipe files, for now you can open a command line on the folder you installed it and use the following command to open a file:
 ```bash
 java -jar CookGood.jar sample.reci
 ```
@@ -54,12 +54,10 @@ anyone to make any recipe file for this tool are advised to follow how the struc
 |Steps|string|the overall text seperated by at least one empty line
 
 
-
 ## Credits
 Alexis L (it2023092): lead co-developer, Repo host, Documentation
 
 Ioanis K (it2023091): lead developer, beta tester
-
 
 ## ToDo List by Phase 2
 - add the required dependencies for phase two
