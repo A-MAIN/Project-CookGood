@@ -4,11 +4,11 @@ Project-CookGood is a simple java project that IO's external files into a readab
 ## Usage
 included with every release is a pre-made .jar executable and sample recipe files, for now you can open a command line on the folder you installed it and use the following command to open a file:
 ```bash
-java -jar CookGood.jar sample.reci
+java -jar CookGood.jar alexandco.projectcookgood.app sample.reci
 ```
 there's also the option to list down a shopping list from multiple files using the `-list` parameter too:
 ```bash
-java -jar CookGood.jar -list sample1.reci sample2.reci sample3.cook ...
+java -jar CookGood.jar alexandco.projectcookgood.app -list sample1.reci sample2.reci sample3.cook ...
 ```
 
 > (for now `.cook`, `.reci`, and regular `.txt` based files are supported.)
