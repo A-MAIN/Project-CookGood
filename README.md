@@ -10,7 +10,7 @@ there's also the option to list down a shopping list from multiple files using t
 ```bash
 java -jar CookGood.jar alexandco.projectcookgood.SouschefPro.app -list sample1.reci sample2.reci sample3.cook ...
 ```
-to open gui mode, you would type this on the command line and open the files from there.
+to open in gui mode, you would type this on the command line and open the files from there.
 ```bash
 java -jar CookGood.jar alexandco.projectcookgood.MainGUI.app
 ```
