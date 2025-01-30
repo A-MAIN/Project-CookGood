@@ -14,6 +14,10 @@ to open in gui mode, you would type this on the command line and open the files 
 ```bash
 java -jar CookGood.jar alexandco.projectcookgood.MainGUI.app
 ```
+or
+```bash
+java -jar CookGood.jar alexandco.projectcookgood.SouschefPro.app -GUI
+```
 
 > (for now `.cook`, `.reci`, and regular `.txt` based files are supported.)
 
