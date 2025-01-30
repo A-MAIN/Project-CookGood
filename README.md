@@ -66,8 +66,8 @@ Ioanis K (it2023091): lead developer, beta tester
 ## ToDo List by Phase 2
 - add the required dependencies for phase two
 - further optimize the parsing logic
-- unit conversions to `gr` and `ml`  *(for solid and liquid ingridients respectively)*
+~~- unit conversions to `gr` and `ml`  *(for solid and liquid ingredients respectively)*
 - make it only exclusively-compatible with the proprietery `.reci` format, and the `.cook` format
 - add a print option for amount of servings
-- make the clean up of markings it's own seperate interface class 
+- make the clean up of markings it's own seperate interface class~~
 
